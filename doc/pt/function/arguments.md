@@ -1,45 +1,45 @@
-## The `arguments` Object
+    ## O Objeto `arguments`
 
-Every function scope in JavaScript can access the special variable `arguments`.
-This variable holds a list of all the arguments that were passed to the function.
+Cada escopo de função no JavaScript pode acessar a variável especial
+`arguments`. Essa variável contém uma lista de todos os argumentos que 
+foram passados para a função.
 
-> **Note:** In case `arguments` has already been defined inside the function's
-> scope either via a `var` statement or being the name of a formal parameter,
-> the `arguments` object will not be created.
+> **Nota:** No caso de `arguments` já ter sido definido dentro do escopo da 
+> função, sendo por uma declaração `var` ou sendo o nome de um parâmetro 
+> formal, o objeto `arguments` não será criado.
 
-The `arguments` object is **not** an `Array`. While it has some of the 
-semantics of an array - namely the `length` property - it does not inherit from 
-`Array.prototype` and is in fact an `Object`.
+O objeto `arguments` **não** é um array. Embora ele tenha algumas das 
+semânticas de um array - ou seja, a propriedade `length` - não herda de 
+`Array.prototype` e é de fato um objeto.
 
-Due to this, it is **not** possible to use standard array methods like `push`,
-`pop` or `slice` on `arguments`. While iteration with a plain `for` loop works 
-just fine, it is necessary to convert it to a real `Array` in order to use the 
-standard `Array` methods on it.
+Devido a isso, **não** é possível usar métodos padrões de array como `push`, 
+`pop` ou `slice` em `arguments`. Enquanto a iteração com um simples `for` 
+funciona bem, é necessário convertê-lo para um `Array` real a fim de poder 
+usar os métodos padrões de `Array`.
 
-### Converting to an Array
+### Convertendo para um Array
 
-The code below will return a new `Array` containing all the elements of the 
-`arguments` object.
+O código abaixo irá retornar um novo `Array` contendo todos os elementos 
+do objeto `arguments`.
 
     Array.prototype.slice.call(arguments);
 
-Because this conversion is **slow**, it is **not recommended** to use it in
-performance-critical sections of code.
+Como essa conversão é **lenta**, **não** é recomendada usá-la em seções de 
+código com desempenho crítico.
 
-### Passing Arguments
+## Passando Argumentos
 
-The following is the recommended way of passing arguments from one function to
-another.
+Abaixo é a maneira recomendada para passar agumentos de uma função para outra.
 
     function foo() {
         bar.apply(null, arguments);
     }
     function bar(a, b, c) {
-        // do stuff here
+        // faça coisas aqui
     }
 
-Another trick is to use both `call` and `apply` together to create fast, unbound
-wrappers.
+Outra dica é usar ambos, `call` e `apply` juntos para criar `wrappers`
+(invólucros) rápidos e desacoplados.
 
     function Foo() {}
 
@@ -47,22 +47,22 @@ wrappers.
         console.log(this, a, b, c);
     };
 
-    // Create an unbound version of "method" 
-    // It takes the parameters: this, arg1, arg2...argN
+    // Cria uma versão desacoplada de "method" 
+    // Leva os parâmetros: this, arg1, arg2...argN
     Foo.method = function() {
 
-        // Result: Foo.prototype.method.call(this, arg1, arg2... argN)
+        // Resultado: Foo.prototype.method.call(this, arg1, arg2... argN)
         Function.call.apply(Foo.prototype.method, arguments);
     };
 
 
-### Formal Parameters and Arguments Indices
+### Parâmetros Formais e Índices de Argumentos
 
-The `arguments` object creates *getter* and *setter* functions for both its 
-properties, as well as the function's formal parameters.
+O objeto `arguments` cria funções *getter* e *setter* tanto suas propriedades, 
+como para os parâmetros formais da função.
 
-As a result, changing the value of a formal parameter will also change the value
-of the corresponding property on the `arguments` object, and the other way around.
+Como resultado, a alteração do valor de um parâmtro formal vai alterar também 
+o valor da propriedade correspondente no objeto `arguments` e vice-versa.
 
     function foo(a, b, c) {
         arguments[0] = 2;
@@ -77,41 +77,43 @@ of the corresponding property on the `arguments` object, and the other way aroun
     }
     foo(1, 2, 3);
 
-### Performance Myths and Truths
+### Mitos e Verdades sobre Perfomance
 
-The only time  the `arguments` object is not created is where it is declared as
-a name inside of a function or one of its formal parameters. It does not matter
-whether it is used or not.
+A única vez que o objeto `arguments` não é criado é quando ele é declarado 
+como um nome dentro de uma função ou um de seus parâmetros formais. Assim, 
+não importa se ele é usado ou não.
 
-Both *getters* and *setters* are **always** created; thus, using it has nearly 
-no performance impact at all, especially not in real world code where there is 
-more than a simple access to the `arguments` object's properties.
+Ambos, *getters* e *setters* são **sempre** criados; assim, usar eles não 
+impacta no desempenho no geral, especialmente no código do mundo real, 
+onde há mais de um simples acesso às propriedades do objeto `arguments`.  
 
-> **ES5 Note:** These *getters* and *setters* are not created in strict mode.
+> **Nota ES5:** Esses *getters* e *setters* não são criados em `strict mode`.
 
-However, there is one case which will drastically reduce the performance in
-modern JavaScript engines. That case is the use of `arguments.callee`.
+No entanto, existe um caso que reduz drasticamente o desempenho de motores
+JavaScript modernos. Esse caso é o uso do `arguments.callee`.
 
     function foo() {
-        arguments.callee; // do something with this function object
-        arguments.callee.caller; // and the calling function object
+        arguments.callee; // faça algo com essa função objeto
+        arguments.callee.caller; // e a chamada da função objeto
     }
 
     function bigLoop() {
         for(var i = 0; i < 100000; i++) {
-            foo(); // Would normally be inlined...
+            foo(); // Normalmente será embutido
         }
     }
 
-In the above code, `foo` can no longer be a subject to [inlining][1] since it 
-needs to know about both itself and its caller. This not only defeats possible 
-performance gains that would arise from inlining, but it also breaks encapsulation
-because the function may now be dependent on a specific calling context.
+No código acima, `foo` já não pode ser um objeto para [`inlining`][1] uma vez 
+que precisa conhecer tanto a si mesmo como seu `caller`. Isso só gera 
+possíveis perda de desempenho que surgem a partir do `inlining`, mas também 
+quebra o encapsulamento porque a função agora precisa ser dependente de um 
+contexto de chamada específico.
 
-Making use of `arguments.callee` or any of its properties is **highly discouraged**.
+Fazer uso de `arguments.callee` e quaisquer das suas propriedades é altamente 
+desencorajado.
 
-> **ES5 Note:** In strict mode, `arguments.callee` will throw a `TypeError` since 
-> its use has been deprecated.
+> **Nota ES5:** No `strict mode`, `arguments.callee` irá lançar um
+> `TypeError` uma vez que seu uso se torno obsoleto.
 
 [1]: http://en.wikipedia.org/wiki/Inlining
 

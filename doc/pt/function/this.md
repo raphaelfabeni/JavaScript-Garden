@@ -1,101 +1,104 @@
-## How `this` Works
+## Como Funciona o `this`
 
-JavaScript has a different concept of what the special name `this` refers to 
-than most other programming languages. There are exactly **five** different 
-ways in which the value of `this` can be bound in the language.
+JavaScript tem um conceito diferente sobre o que a palavra especial `this` se 
+refere em relação à maioria das outras linguagens de programação. Existem 
+exatamente **cinco** diferentes maneiras que o valor de `this` pode ser 
+ligado à linguagem.
 
-### The Global Scope
+### O Escopo Global
 
     this;
 
-When using `this` in global scope, it will simply refer to the *global* object.
+Quando o `this` é usaodo no escopo global, ele vai simplesmente se referir 
+ao objeto *global*.
 
-
-### Calling a Function
+### Chamando uma Função
 
     foo();
 
-Here, `this` will again refer to the *global* object.
+Aqui, `this` irá se referir novamente ao objeto *global*.
 
-> **ES5 Note:** In strict mode, the global case **no longer** exists.
-> `this` will instead have the value of `undefined` in that case.
+> **Nota ES5:** No *strict mode*, o processo global **não existe**. Nesse caso,
+> `this` terá o valor `undefined`.
 
-### Calling a Method
+### Chamando um Método
 
     test.foo(); 
 
-In this example, `this` will refer to `test`.
+Nesse exemplo, `this` irá se referir a `test`.
 
-### Calling a Constructor
+### Chamando um Construtor
 
     new foo(); 
 
-A function call that is preceded by the `new` keyword acts as
-a [constructor](#function.constructors). Inside the function, `this` will refer 
-to a *newly created* `Object`.
+Uma chamada de função que é precedida pela keyword `new` atua como um 
+[construtor](#function.constructors). Dentro da função, `this` irá se referir 
+ao objeto *recém criado*.
 
-### Explicit Setting of `this`
+### Definição Explícita do `this`
 
     function foo(a, b, c) {}
                           
     var bar = {};
-    foo.apply(bar, [1, 2, 3]); // array will expand to the below
-    foo.call(bar, 1, 2, 3); // results in a = 1, b = 2, c = 3
+    foo.apply(bar, [1, 2, 3]); // array se expandiá para baixo
+    foo.call(bar, 1, 2, 3); // resulta em a = 1, b = 2, c = 3
 
-When using the `call` or `apply` methods of `Function.prototype`, the value of
-`this` inside the called function gets **explicitly set** to the first argument 
-of the corresponding function call.
+Ao usar os métodos `call` ou `apply` de `Function.prototype`, o valor de 
+`this` dentro da função chamada é definido explicitamente para o primeiro 
+argumento função correspondente.
 
-As a result, in the above example the *method case* does **not** apply, and `this` 
-inside of `foo` will be set to `bar`.
+Como resultado, no exemplo acima, o *exemplo de método* **não** é aplicado e, 
+`this` dentro `foo` será definido como `bar`. 
 
-> **Note:** `this` **cannot** be used to refer to the object inside of an `Object`
-> literal. So `var obj = {me: this}` will **not** result in `me` referring to
-> `obj`, since `this` only gets bound by one of the five listed cases.
+> **Nota:** `this` **não pode** ser usado para se referir ao objeto dentro de
+> objeto literal. Portanto, `var obj = {me: this}` **não** irá resultar em
+> `me` referindo-se a `obj`, uma vez que `this` só está vinculado a um dos 
+> cinco casos listados.
 
-### Common Pitfalls
+### Problemas Comuns
 
-While most of these cases make sense, the first can be considered another
-mis-design of the language because it **never** has any practical use.
+Enquanto a maioria desses casos faz sentido, o primeiro pode ser considerado 
+uma falha de design da linguagem porque **nunca** tem qualquer uso prático.
 
     Foo.method = function() {
         function test() {
-            // this is set to the global object
+            // this é definido ao objeto global
         }
         test();
     }
 
-A common misconception is that `this` inside of `test` refers to `Foo`; while in
-fact, it **does not**.
+Um equívoco comum é que `this` dentro de `test` refere-se a `Foo`; o que de 
+fato **não** acontece.
 
-In order to gain access to `Foo` from within `test`, it is necessary to create a 
-local variable inside of `method` that refers to `Foo`.
+A fim de ter acesso a `Foo` dentro de `test`, é necessário criar uma 
+variável local dentro de `method` que refere-se a `Foo`.
 
     Foo.method = function() {
         var that = this;
         function test() {
-            // Use that instead of this here
+            // Use that ao invés de this aqui
         }
         test();
     }
 
-`that` is just a normal variable name, but it is commonly used for the reference to an 
-outer `this`. In combination with [closures](#function.closures), it can also 
-be used to pass `this` values around.
+`that` é apenas uma variável normal, mas é comumente usada para referenciar 
+um `this`exterior. Em combinação com as [closures](#function.closures), pode 
+também ser usado para passar valores de `this` para outras partes.
 
-### Assigning Methods
+### Atribuição de Métodos
 
-Another thing that does **not** work in JavaScript is function aliasing, which is
-**assigning** a method to a variable.
+Outra coisa que **não** funciona no JavaScript é *function aliasing*, que é 
+**atribuir** um método a uma variável.
 
     var test = someObject.methodTest;
     test();
 
-Due to the first case, `test` now acts like a plain function call; therefore,
-`this` inside it will no longer refer to `someObject`.
+Devido ao primeiro caso, `test` agora age como uma chamda de função simples; 
+portanto, o `this` interior não se refere a `someObject`.
 
-While the late binding of `this` might seem like a bad idea at first, in 
-fact, it is what makes [prototypal inheritance](#object.prototype) work. 
+Enquanto a vinculação tardia de `this` pode parecer a princípio uma má idéia, 
+na verdade, é o que faz a [herança prototype](#object.prototype) 
+funcionar. 
 
     function Foo() {}
     Foo.prototype.method = function() {};
@@ -105,7 +108,5 @@ fact, it is what makes [prototypal inheritance](#object.prototype) work.
 
     new Bar().method();
 
-When `method` gets called on an instance of `Bar`, `this` will now refer to that
-very instance. 
-
-
+Quando `method` é chamado em uma instância de `Bar`, `this` irá se referir 
+àquela exata instância.
