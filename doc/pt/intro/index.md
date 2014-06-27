@@ -1,6 +1,6 @@
 ## Intro
 
-**JavaScript Garden** é uma coleção em evolução de documentação sobre as 
+**JavaScript Garden** é uma coleção, em crescimento, da documentação sobre as 
 partes mais peculiares da linguagem de programação JavaScript. Ela fornece 
 conselhos a fim de evitar erros comuns e <i>bugs</i> sutis, bem como 
 problemas de perfomance e práticas ruins, que programadores que não sejam 
@@ -21,7 +21,8 @@ Atualmente é mantido por [Tim Ruffles](http://truffles.me.uk).
 
 ## Contribuídores
 
-- São muitos para listar aqui, [veja todos os contribuídores](https://github.com/BonsaiDen/JavaScript-Garden/graphs/contributors).
+- São muitos para listar aqui, 
+[veja todos os contribuídores](https://github.com/BonsaiDen/JavaScript-Garden/graphs/contributors).
 
 
 ## Hospedagem

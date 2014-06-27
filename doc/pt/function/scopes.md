@@ -1,29 +1,30 @@
-## Scopes and Namespaces
+## Escopos e Namespaces
 
-Although JavaScript deals fine with the syntax of two matching curly
-braces for blocks, it does **not** support block scope; hence, all that is left 
-in the language is *function scope*.
+Embora JavaScript lide bem com a sintaxe de duas chaves para blocos, ela 
+**não** suporta escopo em bloco; portanto, tudo que resta na linguagem é 
+*escopo de função*.
 
     function test() { // a scope
-        for(var i = 0; i < 10; i++) { // not a scope
+        for(var i = 0; i < 10; i++) { // não é escopo
             // count
         }
         console.log(i); // 10
     }
 
-> **Note:** When not used in an assignment, return statement or as a function 
-> argument, the `{...}` notation will get interpreted as a block statement and 
-> **not** as an object literal. This, in conjunction with 
-> [automatic insertion of semicolons](#core.semicolon), can lead to subtle errors.
+> **Nota:* Quando não for utilizado em uma atribuição, uma instrução `return` 
+> ou como um argumento de função, a notação `{...}` vai ser interpretada como 
+> uma declaração de bloco e **não** como um objeto literal. Isso em conjunto, 
+> com a [inserção automática de ponto e vírgula](#core.semicolon), pode 
+> levar a erros sutis.
 
-There are also no distinct namespaces in JavaScript, which means that everything 
-gets defined in one *globally shared* namespace.
+Também não há *namespaces* distintos em JavaScript, o que significa que tudo 
+é definido em um *namespace global* compartilhado.
 
-Each time a variable is referenced, JavaScript will traverse upwards through all 
-the scopes until it finds it. In the case that it reaches the global scope and 
-still has not found the requested name, it will raise a `ReferenceError`.
+Cada vez que uma variável é referenciada, JavaScript irá percorrer em todos os 
+escopos até achá-la. No caso que o âmbito global for atingido e a variável não 
+tiver sido encontrada, isso resultará em um `ReferenceError`.
 
-### The Bane of Global Variables
+### A Ruína de Variáveis Globais
 
     // script A
     foo = '42';
@@ -31,26 +32,26 @@ still has not found the requested name, it will raise a `ReferenceError`.
     // script B
     var foo = '42'
 
-The above two scripts do **not** have the same effect. Script A defines a 
-variable called `foo` in the *global* scope, and script B defines a `foo` in the
-*current* scope.
+Os dois scripts acima **não** tem o mesmo efeito. o script A define uma 
+variável chamada `foo` no escopo *global*, e o script B define uma variável 
+`foo` no escopo *atual*.
 
-Again, that is **not** at all the *same effect*: not using `var` can have major 
-implications.
+Mais uma vez, não é relacioado ao *mesmo efeito*: não usar `var` pode ter 
+grandes implicações.
 
     // global scope
     var foo = 42;
     function test() {
-        // local scope
+        // escopo local
         foo = 21;
     }
     test();
     foo; // 21
 
-Leaving out the `var` statement inside the function `test` will override the 
-value of `foo`. While this might not seem like a big deal at first, having 
-thousands of lines of JavaScript and not using `var` will introduce horrible,
-hard-to-track-down bugs.
+Não inserindo a declaração `var` dentro da função `test` irá substituirá o 
+valor de `foo`. Enquanto isso pode não parecer um grande problema em um 
+primeiro momento, ter milhares de linhas de JavaScript e não usar `var` 
+vai lhe introduzir bugs horríveis e difíceis de encontrar.
     
     // global scope
     var items = [/* some list */];
@@ -60,21 +61,22 @@ hard-to-track-down bugs.
 
     function subLoop() {
         // scope of subLoop
-        for(i = 0; i < 10; i++) { // missing var statement
+        for(i = 0; i < 10; i++) { // faltando declaração var
             // do amazing stuff!
         }
     }
-    
-The outer loop will terminate after the first call to `subLoop`,  since `subLoop`
-overwrites the global value of `i`. Using a `var` for the second `for` loop would
-have easily avoided this error. The `var` statement should **never** be left out 
-unless the *desired effect* is to affect the outer scope.
 
-### Local Variables
+O loop externo irá terminar depois da primeira chamada a `subloop`, uma vez 
+que `subloop` substitui o valor global de `i`. Usando um `var` para o segundo 
+loop `for` esse erro seria facilmente evitado. A declaração `var` **nunca** 
+deve ser deixada de fora a menos que o *efeito desejado* seja afetar o 
+escopo externo.
 
-The only source for local variables in JavaScript are
-[function](#function.general) parameters and variables declared via the 
-`var` statement.
+### Variáveis Locais
+
+A única fonte de variáveis locais em JavaScript são parâmetros de 
+[funções](#function.general) e variáveis declaradas por meio da declaração 
+`var`.
 
     // global scope
     var foo = 1;
@@ -82,7 +84,7 @@ The only source for local variables in JavaScript are
     var i = 2;
 
     function test(i) {
-        // local scope of the function test
+        // escopo local da função test
         i = 5;
 
         var foo = 3;
@@ -90,13 +92,13 @@ The only source for local variables in JavaScript are
     }
     test(10);
 
-While `foo` and `i` are local variables inside the scope of the function `test`,
-the assignment of `bar` will override the global variable with the same name.
+Enquanto `foo` e `i` são variáveis locais dentro do escopo da função `test`, 
+a atribuição de `bar` irá substituir a variável global com o mesmo nome.
 
 ### Hoisting
 
-JavaScript **hoists** declarations. This means that both `var` statements and
-`function` declarations will be moved to the top of their enclosing scope.
+JavaScript **eleva** declarações. Isso significa que ambos, declarações `var`  
+e declarações `function` serão movidos para o topo do seu escopo.
 
     bar();
     var bar = function() {};
@@ -115,16 +117,16 @@ JavaScript **hoists** declarations. This means that both `var` statements and
         }
     }
 
-The above code gets transformed before execution starts. JavaScript moves
-the `var` statements, as well as `function` declarations, to the top of the 
-nearest surrounding scope.
+O código acima é transformado antes do inicio da sua execução. JavaScript 
+move as declarações `var`, assim como as declarações `function`, para o 
+topo do escopo mais próximo.
 
-    // var statements got moved here
-    var bar, someValue; // default to 'undefined'
+    // declarações var são movidas aqui
+    var bar, someValue; // default para 'undefined'
 
-    // the function declaration got moved up too
+    // as declarações de função também são movidas
     function test(data) {
-        var goo, i, e; // missing block scope moves these here
+        var goo, i, e; // escopo de bloco ausente move essas variáveis p/ cá
         if (false) {
             goo = 1;
 
@@ -136,98 +138,99 @@ nearest surrounding scope.
         }
     }
 
-    bar(); // fails with a TypeError since bar is still 'undefined'
-    someValue = 42; // assignments are not affected by hoisting
+    bar(); // falha com um TypeError uma vez que bar continua 'undefined'
+    someValue = 42; // atribuições não são afetadas pelo hoisting
     bar = function() {};
 
     test();
 
-Missing block scoping will not only move `var` statements out of loops and
-their bodies, it will also make the results of certain `if` constructs 
-non-intuitive.
+Escopos de bloco ausentes não só moverão as declarações `var` fora seus 
+loops e corpos, mas também farão os resultados de certos construtores 
+`if` não intuitivos.
 
-In the original code, although the `if` statement seemed to modify the *global 
-variable* `goo`, it actually modifies the *local variable* - after hoisting 
-has been applied.
+No código original, embora a declaração `if` pareça modificar a *variável 
+global* `goo`, na verdade ela modifica a *variável local* - depois da elevação 
+(*hoisting*) ser aplicada.
 
-Without knowledge of *hoisting*, one might suspect the code below would raise a
-`ReferenceError`.
+Sem o conhecimento de elevação (*hoisting*), pode-se suspeitar que o código 
+abaixo retornaria um `ReferenceError`.
 
-    // check whether SomeImportantThing has been initialized
+    // verifica se SomeImportantThing foi inicializada
     if (!SomeImportantThing) {
         var SomeImportantThing = {};
     }
 
-But of course, this works due to the fact that the `var` statement is being 
-moved to the top of the *global scope*.
+Mas claro, que isso funciona devido ao fato da declaração `var` ser movida 
+para o topo do *escopo global*.
 
     var SomeImportantThing;
 
-    // other code might initialize SomeImportantThing here, or not
+    // outro código pode ou não inicializar SomeImportantThing aqui
 
-    // make sure it's there
+    // tenha certeza de que está lá
     if (!SomeImportantThing) {
         SomeImportantThing = {};
     }
 
-### Name Resolution Order
+### Ordem da Resolução de Nomes
 
-All scopes in JavaScript, including the *global scope*, have the special name 
-[`this`](#function.this), defined in them, which refers to the *current object*. 
+Todos escopos em JavaScript, incluindo o *escopo global*, tem o nome
+especial [`this`](#function.this), definidos em si, que se refere ao *objeto 
+atual*.
 
-Function scopes also have the name [`arguments`](#function.arguments), defined in
-them, which contains the arguments that were passed to the function.
+Escopos de função também tem o nome [`arguments`](#function.arguments), 
+definido em si, e que contém os argumentos que foram passados para a função.
 
-For example, when trying to access a variable named `foo` inside the scope of a 
-function, JavaScript will look up the name in the following order:
+Por exemplo, ao tentar acessar uma variável de nome `foo` dentro do escopo de 
+uma função, JavaScript irá procurar pelo nome na seguinte ordem:
 
- 1. In case there is a `var foo` statement in the current scope, use that.
- 2. If one of the function parameters is named `foo`, use that.
- 3. If the function itself is called `foo`, use that.
- 4. Go to the next outer scope, and start with **#1** again.
+ 1. No caso de haver uma declaração `var foo` dentro do escopo atual, use ela.
+ 2. Se um dos parâmetros da função é nomeado `foo`, use ele.
+ 3. Se a própria função é chamada `foo`, use ela.
+ 4. Vá para o escopo seguinte e, comece **#1** de novo.
 
-> **Note:** Having a parameter called `arguments` will **prevent** the creation 
-> of the default `arguments` object.
+> **Nota:** Ter um parâmetro chamado `arguments` evita a criação do objeto 
+> padrão `arguments`.
 
 ### Namespaces
 
-A common problem associated with having only one global namespace is the
-likelihood of running into problems where variable names clash. In JavaScript,
-this problem can easily be avoided with the help of *anonymous wrappers*.
+Um problema comum associado a se ter apenas um *namespace* global é a 
+probabilidade de nomes de variáveis se coincidirem. Em JavaScript esse 
+problema pode ser facilmente evitado com a ajuda dos *wrappers anônimos*.
 
     (function() {
-        // a self contained "namespace"
+        // um "namespace" reservado
         
         window.foo = function() {
-            // an exposed closure
+            // uma closure exposta
         };
 
-    })(); // execute the function immediately
+    })(); // executa a função imediatamente
 
+Função sem nome são consideradas [expressões](#function.general); assim, a fim 
+de serem acessíveis, elas precisam primeiro serem avaliadas.
 
-Unnamed functions are considered [expressions](#function.general); so in order to
-be callable, they must first be evaluated.
-
-    ( // evaluate the function inside the parentheses
+    ( // avalia a função dentro dos parênteses
     function() {}
-    ) // and return the function object
-    () // call the result of the evaluation
+    ) // e retorna o objeto da função
+    () // chama o resultado da avaliação
 
-There are other ways to evaluate and directly call the function expression
-which, while different in syntax, behave the same way.
+Há outras maneiras de avaliar e chamar expressões de função, que embora 
+difiram na sintaxe, se comportam da mesma maneira.
 
-    // A few other styles for directly invoking the 
+    // Alguns outros estilos para invocar diretamente
     !function(){}()
     +function(){}()
     (function(){}());
-    // and so on...
+    // e assim por diante...
 
-### In Conclusion
+### Conclusão
 
-It is recommended to always use an *anonymous wrapper* to encapsulate code in 
-its own namespace. This does not only protect code against name clashes, but it 
-also allows for better modularization of programs.
+Recomenda-se sempre usar um *wrapper anônimo* para encapsular o código em seu 
+próprio namespace. Isso não só protege contra os conflitos de nomes, mas 
+também permite uma melhor modularização dos programas.
 
-Additionally, the use of global variables is considered **bad practice**. **Any**
-use of them indicates badly written code that is prone to errors and hard to maintain.
+Adicionalmente, o uso de variáveis globais é considerado uma **prática ruim**. 
+**Qualquer** uso delas indica código mal escrito que está propenso a erros 
+e difícil de manter.
 
