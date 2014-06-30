@@ -40,7 +40,7 @@ ao objeto *recém criado*.
     function foo(a, b, c) {}
                           
     var bar = {};
-    foo.apply(bar, [1, 2, 3]); // array se expandiá para baixo
+    foo.apply(bar, [1, 2, 3]); // array se expandirá para baixo
     foo.call(bar, 1, 2, 3); // resulta em a = 1, b = 2, c = 3
 
 Ao usar os métodos `call` ou `apply` de `Function.prototype`, o valor de 
@@ -93,7 +93,7 @@ Outra coisa que **não** funciona no JavaScript é *function aliasing*, que é
     var test = someObject.methodTest;
     test();
 
-Devido ao primeiro caso, `test` agora age como uma chamda de função simples; 
+Devido ao primeiro caso, `test` agora age como uma chamada de função simples; 
 portanto, o `this` interior não se refere a `someObject`.
 
 Enquanto a vinculação tardia de `this` pode parecer a princípio uma má idéia, 

@@ -108,7 +108,7 @@ construir um objeto no interior dessa `factory`.
         return obj;
     }
 
-Enquanto o exemplo acima é robusto contra a falta da palavra chave `news` e 
+Enquanto o exemplo acima é robusto contra a falta da palavra chave `new` e 
 certamente faz o uso de [variáveis privadas](#function.closures) facilmente, 
 ele vem com algumas desvantagens.
 

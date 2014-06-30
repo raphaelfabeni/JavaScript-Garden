@@ -144,8 +144,8 @@ topo do escopo mais próximo.
 
     test();
 
-Escopos de bloco ausentes não só moverão as declarações `var` fora seus 
-loops e corpos, mas também farão os resultados de certos construtores 
+Escopos de bloco ausentes não só moverão as declarações `var` para fora de 
+seus loops e corpos, mas também farão os resultados de certos construtores 
 `if` não intuitivos.
 
 No código original, embora a declaração `if` pareça modificar a *variável 

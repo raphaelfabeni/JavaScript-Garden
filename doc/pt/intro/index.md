@@ -14,8 +14,8 @@ por favor, leia o excelente [guia][1] na MDN - Mozilla Developer Network.
 
 ## Os autores
 
-Esse guia é trabalho de dois encantadores usuários do 
-[Stack Overflow][2], [Ivo Wetzel][3] (escrita) e [Zhang Yi Jiang][4] (design).
+Esse guia é trabalho de dois usuários do [Stack Overflow][2],
+[Ivo Wetzel][3] (escrita) e [Zhang Yi Jiang][4] (design).
 
 Atualmente é mantido por [Tim Ruffles](http://truffles.me.uk).
 

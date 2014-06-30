@@ -34,7 +34,7 @@ escopo.
 
 Como não é possível referenciar ou atribuir escopos em JavaScript, **não** 
 existe maneira de acessar a variável `count` de fora. A única maneira de 
-com a variável é por meio das duas closures.
+interagir com a variável é por meio das duas closures.
 
     var foo = new Counter(4);
     foo.hack = function() {
@@ -43,7 +43,7 @@ com a variável é por meio das duas closures.
 
 O código acima **não** irá alterar a variável `count` no escopo `Counter`, 
 uma vez que `foo.hack` não foi definido **naquele** escopo. Ao invés disso, 
-será criada - ou sobre ou sobreposta - a variável *global* `count`.
+será criada - ou sobreposta - a variável *global* `count`.
 
 ### Closures Dentro de Loops
 

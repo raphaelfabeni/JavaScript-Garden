@@ -16,7 +16,7 @@ quando itera sobre as propriedades de um objeto.
     }
 
 Uma vez que não é possível alterar o comportamento do loop `for in` em si, 
-é necessário filtrar as propriedades indesejadas dentro do loop;sso é feito 
+é necessário filtrar as propriedades indesejadas dentro do loop; isso é feito 
 usando o método [`hasOwnProperty`](#object.hasownproperty) do 
 `Object.prototype`.
 

@@ -4,7 +4,7 @@ JavaScript não tem um modelo de herança clássica; em vez disso, utiliza
 uma baseada no *prototype*.
 
 Enquanto isso é muitas vezes considerado como um dos pontos fracos do
-JavaScript, o modelo de herança de protótipo é de fato mais potente
+JavaScript, o modelo de herança `prototype` é de fato mais potente
 que o o modelo clássico. Por exemplo, é relativamente simples
 desenvolver um modelo clássico sob o modelo <i>prototype</i>, 
 enquanto o contrário é uma tarefa muito mais difícil.
@@ -17,7 +17,7 @@ A primeira grande diferença é que herança em JavaScript utiliza *prototype
 chains*.
 
 > **Nota:** Simplesmente usando `Bar.prototype = Foo.prototype` resultará 
-> em ambos objetos compartilhamento o **mesmo** *prototype*. Portanto, 
+> em ambos objetos compartilhando o **mesmo** *prototype*. Portanto, 
 > alterar o *prototype* de um objeto irá afetar o *prototype* do outro
 > objeto também, o que na maioria dos casos não é o efeito desejado.
 
@@ -30,7 +30,7 @@ chains*.
 
     function Bar() {}
 
-    // Seta o Bar prototype para uma nova instância Foo
+    // Seta Bar prototype para uma nova instância Foo
     Bar.prototype = new Foo();
     Bar.prototype.foo = 'Hello World';
 
@@ -51,7 +51,7 @@ chains*.
 No código acima, o objeto `test` herdará de `Bar.prototype` e `Foo.prototype`;
 portanto ele terá acesso à função `method` que foi definida em `Foo`. Ele
 também tera acesso ao `value` da propriedade de **uma ** instância de `Foo`
-que é o seu *prototype*. É importante notar que a `new Bar()` **não** cria uma
+que é o seu *prototype*. É importante notar que `new Bar()` **não** cria uma
 nova instância `Foo`, mas reutiliza uma atribuída ao seu *prototype*; assim, 
 todas instâncias `Bar` irão compartilhar a **mesma** propriedade `value`.
 
@@ -60,7 +60,7 @@ todas instâncias `Bar` irão compartilhar a **mesma** propriedade `value`.
 > a cadeia de *prototype* vai se sobrepor a `Function.prototype` e não 
 > `Foo.prototype`; portanto, `method` não estará na cadeia de *prototype*.
 
-### Propriedade *Lookup*
+### Procurando Propriedade
 
 Ao acessar as propriedades de um objeto, JavaScript irá percorrer a cadeia do
 *prototype* para cima até achar a propriedade com o nome solicitado.
@@ -72,14 +72,14 @@ encontrado a propriedade específica, ele irá retornar o valor
 ### A Propriedade Prototype
 
 Enquanto a propriedade *prototype* é usada pela linguagem para construir a 
-cadeira *prototype*, ainda é possível atribuir qualquer a ela. No entanto,
+cadeira *prototype*, ainda é possível atribuir qualquer valor a ela. No entanto,
 os primitivos serão simplemesmente ignorados quando atribuídos como
 *prototype*.
 
     function Foo() {}
     Foo.prototype = 1; // sem efeito
 
-Atribuindo objetos, como mostrado no exemplo acima, irá funcionar e permite
+Atribuir objetos, como mostrado no exemplo acima, irá funcionar e permite
 a criação dinâmica de cadeias *prototype*.
 
 ### Performance
@@ -99,13 +99,12 @@ Uma característica inconveniente que é frequentemente usada é estender
 `Object.prototype` ou um dos outros contruídos em *prototype*.
 
 Essa técnica é chamada [monkey patching][1] e quebra o *encapsulamento*. 
-Enquanto é usado por frameworks populares como o [Prototype][2], ainda não há 
-uma boa razão sobrecarregar tipos internos (*built-in types*) com 
+Enquanto é usada por frameworks populares como o [Prototype][2], ainda não há 
+uma boa razão para sobrecarregar tipos internos (*built-in types*) com 
 funcionalidades adicionais *não padrão*.
 
 A **única** boa razão para estender um *prototype* interno é para transportar
-as funcionalidades para novos motores JavaScript; por exemplo,
-[`Array.forEach`][3].
+as funcionalidades para novos motores JavaScript; por exemplo, [`Array.forEach`][3].
 
 ### Conclusão
 

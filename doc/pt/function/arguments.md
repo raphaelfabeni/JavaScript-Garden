@@ -58,10 +58,10 @@ Outra dica é usar ambos, `call` e `apply` juntos para criar `wrappers`
 
 ### Parâmetros Formais e Índices de Argumentos
 
-O objeto `arguments` cria funções *getter* e *setter* tanto suas propriedades, 
-como para os parâmetros formais da função.
+O objeto `arguments` cria funções *getter* e *setter* tanto para suas
+propriedades, como para os parâmetros formais da função.
 
-Como resultado, a alteração do valor de um parâmtro formal vai alterar também 
+Como resultado, a alteração do valor de um parâmetro formal vai alterar também 
 o valor da propriedade correspondente no objeto `arguments` e vice-versa.
 
     function foo(a, b, c) {
@@ -103,9 +103,9 @@ JavaScript modernos. Esse caso é o uso do `arguments.callee`.
         }
     }
 
-No código acima, `foo` já não pode ser um objeto para [`inlining`][1] uma vez 
+No código acima, `foo` já não pode ser um objeto para [*inlining*][1] uma vez 
 que precisa conhecer tanto a si mesmo como seu `caller`. Isso só gera 
-possíveis perda de desempenho que surgem a partir do `inlining`, mas também 
+possíveis perda de desempenho que surgem a partir do *inlining*, mas também 
 quebra o encapsulamento porque a função agora precisa ser dependente de um 
 contexto de chamada específico.
 
@@ -113,7 +113,7 @@ Fazer uso de `arguments.callee` e quaisquer das suas propriedades é altamente
 desencorajado.
 
 > **Nota ES5:** No `strict mode`, `arguments.callee` irá lançar um
-> `TypeError` uma vez que seu uso se torno obsoleto.
+> `TypeError` uma vez que seu uso se tornou obsoleto.
 
 [1]: http://en.wikipedia.org/wiki/Inlining
 

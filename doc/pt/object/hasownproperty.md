@@ -22,13 +22,13 @@ método `hasOwnProperty` que todos objetos herdam de `Object.prototype`.
 
 Só `hasOwnProperty` irá dar o correto e esperado resultado; isso é essencial 
 quando ocorre iteração sobre as propriedades de qualquer objeto. **Não** há 
-nenhuma outra maneira de excluir proriedades que não estão definidadas no 
+nenhuma outra maneira de excluir proriedades que não estão definidas no 
 próprio objeto, mas em algum lugar da cadeia *prototype*.
 
 ### `hasOwnProperty` como uma Propriedade
 
 JavaScript não protege o nome da propriedade `hasOwnProperty`; assim, se a 
-possibilidade existe de um objeto ter uma propriedade com esse nome, é 
+existe a possibilidade de um objeto ter uma propriedade com esse nome, é 
 necessário usar um `hasOwnProperty` *externo* para se obter resultados 
 corretos.
 
